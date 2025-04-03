@@ -270,7 +270,7 @@ select {
     font-size: 1rem;
 }
 
-button[type="submit"] {
+button[type="submit"],#add-group-btn  {
     padding: 10px 20px;
     background-color: #4a6fa5;
     color: white;
@@ -280,7 +280,8 @@ button[type="submit"] {
     font-size: 1rem;
 }
 
-button[type="submit"]:hover {
+
+button[type="submit"]:hover , #add-group-btn:hover{
     background-color: #3a5a8a;
 }
 
@@ -536,3 +537,4 @@ button[type="submit"]:hover {
         align-items: flex-start;
     }
 }
+
