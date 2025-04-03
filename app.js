@@ -264,7 +264,56 @@ function renderUpcomingBirthdays(container) {
                 <div class="birthday-item ${classes}">
                     <div class="info">
                         <h3>${birthday.name}</h3>
-                        <p>Date: ${formatDate(birthday.date)}</p>
+// Afficher les anniversaires à venir
+function renderUpcomingBirthdays(container) {
+    if (!container) return;
+
+    if (data.birthdays.length === 0) {
+        container.innerHTML =
+            '<p class="empty-message">Aucun anniversaire à venir.</p>';
+        return;
+    }
+
+    // Trier les anniversaires par date à venir
+    const sortedBirthdays = getSortedUpcomingBirthdays();
+
+    let html = "";
+    sortedBirthdays.forEach((birthday, index) => {
+        if (index < 10) {
+            // Limiter à 10 anniversaires
+            const daysUntil = birthday.daysUntil;
+            let classes = "";
+
+            if (daysUntil === 0) {
+                classes = "today";
+            } else if (daysUntil <= 7) {
+                classes = "very-soon";
+            } else if (daysUntil <= 30) {
+                classes = "soon";
+            }
+
+            const group = data.groups.find((g) => g.id === birthday.groupId);
+            const groupName = group ? group.name : "Sans groupe";
+
+            html += `
+                <div class="birthday-item ${classes}">
+                    <div class="info">
+                        <h3>${birthday.name}</h3>
+                        <p>Date: ${new Date(birthday.date).getDate()}/${new Date(birthday.date).getMonth() + 1}</p>
+                        <p>Groupe: ${groupName}</p>
+                        <p>${getDaysMessage(daysUntil)}</p>
+                    </div>
+                    <div class="actions">
+                        <button onclick="editBirthday('${birthday.id}')">Modifier</button>
+                        <button onclick="deleteBirthday('${birthday.id}')">Supprimer</button>
+                    </div>
+                </div>
+            `;
+        }
+    });
+
+    container.innerHTML = html;
+}
                         <p>Groupe: ${groupName}</p>
                         <p>${getDaysMessage(daysUntil)}</p>
                     </div>
