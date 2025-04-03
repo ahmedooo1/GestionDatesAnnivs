@@ -1,21 +1,7 @@
 // Structures des données - définies directement en JS
 let data = {
-    groups: [
-        {"id": "g1", "name": "Famille"},
-        {"id": "g2", "name": "Amis"},
-        {"id": "g3", "name": "Collègues"},
-        {"id": "g4", "name": "École"}
-    ],
-    birthdays: [
-        {"id": "b1", "name": "Marie", "date": "1990-05-15", "groupId": "g1"},
-        {"id": "b2", "name": "Pierre", "date": "1985-10-20", "groupId": "g2"},
-        {"id": "b3", "name": "Sophie", "date": "1992-02-25", "groupId": "g1"},
-        {"id": "b4", "name": "Antoine", "date": "1988-07-12", "groupId": "g2"},
-        {"id": "b5", "name": "Émilie", "date": "1995-12-05", "groupId": "g3"},
-        {"id": "b6", "name": "Lucas", "date": "1991-04-18", "groupId": "g4"},
-        {"id": "b7", "name": "Chloé", "date": "1993-09-30", "groupId": "g1"},
-        {"id": "b8", "name": "Thomas", "date": "1987-01-08", "groupId": "g3"}
-    ]
+    groups: [],
+    birthdays: []
 };
 
 // Paramètres de notification par défaut
