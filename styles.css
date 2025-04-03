@@ -1,0 +1,538 @@
+/* Styles généraux */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Styles pour Import/Export et Paramètres */
+.export-import-container, .settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.export-section, .import-section, .notification-settings, .settings-info {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 3px solid #4a6fa5;
+}
+
+.export-section h3, .import-section h3, .notification-settings h3, .settings-info h3 {
+    margin-bottom: 10px;
+    color: #4a6fa5;
+}
+
+.export-section p, .import-section p, .notification-settings p, .settings-info p {
+    margin-bottom: 15px;
+}
+
+.action-btn {
+    padding: 10px 15px;
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.action-btn:hover {
+    background-color: #3a5a8a;
+}
+
+#import-file {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* Styles paramètres */
+.settings-form {
+    margin-top: 15px;
+}
+
+.checkbox-group {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+.time-selector {
+    margin: 15px 0;
+}
+
+.time-selector input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 150px;
+}
+
+.info-box {
+    background-color: #f0f4f8;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.info-box ul {
+    margin: 10px 0 10px 20px;
+}
+
+.info-box li {
+    margin-bottom: 5px;
+}
+
+/* Header */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: #4a6fa5;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #4a6fa5;
+}
+
+/* Notification Permission */
+.notification-permission {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f4f8;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.btn-notification {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+/* Navigation par onglets */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    color: #666;
+}
+
+.tab-btn:hover {
+    background-color: #f0f4f8;
+}
+
+.tab-btn.active {
+    color: #4a6fa5;
+    border-bottom: 2px solid #4a6fa5;
+}
+
+.tab-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Liste des anniversaires */
+.birthdays-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.birthday-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 3px solid #ccc;
+}
+
+.birthday-item.today {
+    background-color: #ffe6e6;
+    border-left: 5px solid #ff4d4d;
+}
+
+.birthday-item.very-soon {
+    background-color: #fff4e6;
+    border-left: 5px solid #ff9933;
+}
+
+.birthday-item.soon {
+    background-color: #e6f7ff;
+    border-left: 5px solid #4a6fa5;
+}
+
+.info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+}
+
+.actions button {
+    padding: 5px 10px;
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    background-color: #3a5a8a;
+}
+
+/* Formulaires */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4a6fa5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #3a5a8a;
+}
+
+/* Groupes */
+.group-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.group-form input {
+    flex: 1;
+}
+
+.groups-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 3px solid #4a6fa5;
+}
+
+.empty-message {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Notification dans l'application */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: #4a6fa5;
+    color: white;
+    border-radius: 5px;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Styles pour Chronologie */
+.timeline-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-container, .view-options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.view-btn {
+    padding: 8px 15px;
+    background-color: #f0f4f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.view-btn.active {
+    background-color: #4a6fa5;
+    color: white;
+    border-color: #4a6fa5;
+}
+
+.timeline-container {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Vue par mois */
+.month-timeline {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+@media (max-width: 992px) {
+    .month-timeline {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .month-timeline {
+        grid-template-columns: 1fr;
+    }
+}
+
+.month-card {
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
+    border-left: 4px solid #4a6fa5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.month-card h3 {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #eee;
+    color: #4a6fa5;
+}
+
+.month-birthday-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.month-birthday-item {
+    padding: 8px;
+    border-radius: 3px;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.month-birthday-item .name {
+    font-weight: 600;
+}
+
+.month-birthday-item .date {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.month-birthday-item .group-tag {
+    font-size: 0.8rem;
+    background-color: #e6f7ff;
+    color: #4a6fa5;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+/* Vue par saison */
+.season-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.season-section {
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    margin-left: 30px;
+}
+
+.season-section::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #4a6fa5;
+}
+
+.season-section h3 {
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+/* Couleurs par saison */
+.season-winter {
+    background-color: #e6f5ff;
+    border-left: 5px solid #4a6fa5;
+}
+
+.season-spring {
+    background-color: #f0fff0;
+    border-left: 5px solid #4CAF50;
+}
+
+.season-summer {
+    background-color: #fff9e6;
+    border-left: 5px solid #ff9933;
+}
+
+.season-autumn {
+    background-color: #fff0e6;
+    border-left: 5px solid #ff6633;
+}
+
+.season-birthday-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}
+
+.season-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.no-birthdays-message {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+        border-bottom: none;
+    }
+    
+    .tab-btn {
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .group-form {
+        flex-direction: column;
+    }
+    
+    .timeline-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

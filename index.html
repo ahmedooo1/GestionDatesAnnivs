@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rappel d'Anniversaires</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Système de Rappel d'Anniversaires</h1>
+            <div id="notification-permission" class="notification-permission">
+                <button id="enable-notifications" class="btn-notification">🔔 ACTIVER LES NOTIFICATIONS</button>
+                <span>Recevez des alertes pour les anniversaires à venir</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="upcoming">Prochains Anniversaires</button>
+                <button class="tab-btn" data-tab="timeline">Chronologie</button>
+                <button class="tab-btn" data-tab="groups">Groupes</button>
+                <button class="tab-btn" data-tab="add">Ajouter</button>
+                <button class="tab-btn" data-tab="export">Exporter/Importer</button>
+                <button class="tab-btn" data-tab="settings">Paramètres</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Prochains Anniversaires -->
+                <div id="upcoming" class="tab-pane active">
+                    <h2>Prochains Anniversaires</h2>
+                    <div id="upcoming-birthdays" class="birthdays-list">
+                        <!-- Les anniversaires à venir seront affichés ici -->
+                        <p class="empty-message">Aucun anniversaire à venir.</p>
+                    </div>
+                </div>
+
+                <!-- Chronologie des anniversaires -->
+                <div id="timeline" class="tab-pane">
+                    <h2>Chronologie Annuelle</h2>
+                    <div class="timeline-controls">
+                        <div class="filter-container">
+                            <label for="timeline-group-filter">Filtrer par groupe:</label>
+                            <select id="timeline-group-filter">
+                                <option value="">Tous les groupes</option>
+                                <!-- Options de groupes ajoutées dynamiquement -->
+                            </select>
+                        </div>
+                        <div class="view-options">
+                            <button id="month-view-btn" class="view-btn active">Vue par mois</button>
+                            <button id="season-view-btn" class="view-btn">Vue par saison</button>
+                        </div>
+                    </div>
+                    
+                    <div id="timeline-container" class="timeline-container">
+                        <!-- La chronologie sera générée ici -->
+                    </div>
+                </div>
+                
+                <!-- Groupes -->
+                <div id="groups" class="tab-pane">
+                    <h2>Gestion des Groupes</h2>
+                    <div class="group-form">
+                        <input type="text" id="new-group-name" placeholder="Nom du nouveau groupe">
+                        <button id="add-group-btn">Créer Groupe</button>
+                    </div>
+                    <div id="groups-list" class="groups-list">
+                        <!-- Les groupes seront affichés ici -->
+                    </div>
+                </div>
+
+                <!-- Ajouter un anniversaire -->
+                <div id="add" class="tab-pane">
+                    <h2>Ajouter un Anniversaire</h2>
+                    <form id="birthday-form">
+                        <div class="form-group">
+                            <label for="name">Nom:</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate">Date de naissance:</label>
+                            <input type="date" id="birthdate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="group">Groupe:</label>
+                            <select id="group" required>
+                                <!-- Les options de groupe seront ajoutées ici -->
+                            </select>
+                        </div>
+                        <button type="submit">Enregistrer</button>
+                    </form>
+                </div>
+                
+                <!-- Exporter/Importer -->
+                <div id="export" class="tab-pane">
+                    <h2>Exporter / Importer des Données</h2>
+                    <div class="export-import-container">
+                        <div class="export-section">
+                            <h3>Exporter les données</h3>
+                            <p>Téléchargez vos données au format JSON pour les sauvegarder.</p>
+                            <button id="export-btn" class="action-btn">Exporter les données</button>
+                        </div>
+                        
+                        <div class="import-section">
+                            <h3>Importer des données</h3>
+                            <p>Importez des données à partir d'un fichier JSON.</p>
+                            <input type="file" id="import-file" accept=".json">
+                            <button id="import-btn" class="action-btn">Importer les données</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Paramètres -->
+                <div id="settings" class="tab-pane">
+                    <h2>Paramètres de Notification</h2>
+                    <div class="settings-container">
+                        <div class="notification-settings">
+                            <h3>Configuration des rappels</h3>
+                            <p>Définissez quand vous souhaitez recevoir des notifications pour les anniversaires.</p>
+                            
+                            <div class="settings-form">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-week" checked>
+                                    <label for="notify-week">Me notifier une semaine avant (7 jours)</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-three-days" checked>
+                                    <label for="notify-three-days">Me notifier trois jours avant</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-day-before" checked>
+                                    <label for="notify-day-before">Me notifier la veille (1 jour avant)</label>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-same-day" checked>
+                                    <label for="notify-same-day">Me notifier le jour même</label>
+                                </div>
+                                
+                                <div class="time-selector">
+                                    <label for="notification-time">Heure de notification:</label>
+                                    <input type="time" id="notification-time" value="09:00">
+                                </div>
+                                
+                                <button id="save-settings" class="action-btn">Enregistrer les paramètres</button>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-info">
+                            <h3>Comment fonctionnent les notifications</h3>
+                            <div class="info-box">
+                                <p>Les notifications d'anniversaire s'afficheront même lorsque vous n'êtes pas sur le site, à condition que:</p>
+                                <ul>
+                                    <li>Votre navigateur soit ouvert</li>
+                                    <li>Vous ayez autorisé les notifications (bouton en haut de page)</li>
+                                    <li>Vous ayez coché les options correspondantes ci-dessus</li>
+                                </ul>
+                                <p>L'application vérifie automatiquement les anniversaires à venir toutes les heures.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div id="notification" class="notification">
+            <!-- Les notifications s'afficheront ici -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
