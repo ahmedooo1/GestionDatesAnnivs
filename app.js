@@ -1,21 +1,7 @@
-// Structures des données - définies directemeupcoming-birthdaysnt en JS
+// Structures des données - définies directement en JS
 let data = {
-    groups: [
-        {"id": "g1", "name": "Famille"},
-        {"id": "g2", "name": "Amis"},
-        {"id": "g3", "name": "Collègues"},
-        {"id": "g4", "name": "École"}
-    ],
-    birthdays: [
-        {"id": "b1", "name": "Marie", "date": "1990-05-15", "groupId": "g1"},
-        {"id": "b2", "name": "Pierre", "date": "1985-10-20", "groupId": "g2"},
-        {"id": "b3", "name": "Sophie", "date": "1992-02-25", "groupId": "g1"},
-        {"id": "b4", "name": "Antoine", "date": "1988-07-12", "groupId": "g2"},
-        {"id": "b5", "name": "Émilie", "date": "1995-12-05", "groupId": "g3"},
-        {"id": "b6", "name": "Lucas", "date": "1991-04-18", "groupId": "g4"},
-        {"id": "b7", "name": "Chloé", "date": "1993-09-30", "groupId": "g1"},
-        {"id": "b8", "name": "Thomas", "date": "1987-01-08", "groupId": "g3"}
-    ]
+    groups: [],
+    birthdays: []
 };
 
 // Paramètres de notification par défaut
@@ -283,7 +269,7 @@ function renderUpcomingBirthdays(container) {
                         <p>${getDaysMessage(daysUntil)}</p>
                     </div>
                     <div class="actions">
-                        <button onclick="editBirthday('${birthday.id}')">Modifier</button>
+                        <button onclick="showBirthdayDetails('${birthday.id}')">Détails</button>
                         <button onclick="deleteBirthday('${birthday.id}')">Supprimer</button>
                     </div>
                 </div>
@@ -437,13 +423,13 @@ function addBirthday(formElement, birthdaysContainer, tabButtons, tabPanes) {
     formElement.reset();
     // Mettre à jour les différentes vues
     renderUpcomingBirthdays(birthdaysContainer);
-    
+
     // Mettre à jour la chronologie si l'onglet est actif
     const timelinePane = document.getElementById("timeline");
     if (timelinePane.classList.contains("active")) {
         renderTimelineTab();
     }
-    
+
     showNotification(`Anniversaire de "${name}" ajouté avec succès.`);
 
     // Retourner à l'onglet des anniversaires à venir
@@ -478,25 +464,38 @@ function deleteBirthday(id) {
     const birthday = data.birthdays.find((b) => b.id === id);
     if (!birthday) return;
 
-    if (
-        confirm(
-            `Êtes-vous sûr de vouloir supprimer l'anniversaire de "${birthday.name}" ?`,
-        )
-    ) {
+    const modal = document.getElementById('confirmModal');
+    const confirmMessage = document.getElementById('confirmMessage');
+    
+    confirmMessage.textContent = `Êtes-vous sûr de vouloir supprimer l'anniversaire de "${birthday.name}" ?`;
+    modal.style.display = 'block';
+
+    document.getElementById('confirmYes').onclick = () => {
         data.birthdays = data.birthdays.filter((b) => b.id !== id);
         saveData();
-        
+
         // Mettre à jour les différentes vues
         renderUpcomingBirthdays(document.getElementById("upcoming-birthdays"));
-        
+
         // Mettre à jour la chronologie si l'onglet est actif
         const timelinePane = document.getElementById("timeline");
         if (timelinePane && timelinePane.classList.contains("active")) {
             renderTimelineTab();
         }
-        
+
+        modal.style.display = 'none';
         showNotification(`Anniversaire de "${birthday.name}" supprimé.`);
-    }
+    };
+
+    document.getElementById('confirmNo').onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
 }
 
 // Modifier un groupe
@@ -513,13 +512,13 @@ function editGroup(id) {
         updateGroupOptions(document.getElementById("group"));
         updateTimelineGroupFilter(); // Mettre à jour le filtre de groupe dans la chronologie
         renderUpcomingBirthdays(document.getElementById("upcoming-birthdays"));
-        
+
         // Mettre à jour la chronologie si l'onglet est actif
         const timelinePane = document.getElementById("timeline");
         if (timelinePane && timelinePane.classList.contains("active")) {
             renderTimelineView(document.querySelector("#month-view-btn").classList.contains("active") ? "month" : "season");
         }
-        
+
         showNotification(`Groupe renommé en "${newName}".`);
     }
 }
@@ -530,14 +529,18 @@ function deleteGroup(id) {
     if (!group) return;
 
     const hasBirthdays = data.birthdays.some((b) => b.groupId === id);
-
+    const modal = document.getElementById('confirmModal');
+    const confirmMessage = document.getElementById('confirmMessage');
+    
     let message = `Êtes-vous sûr de vouloir supprimer le groupe "${group.name}" ?`;
     if (hasBirthdays) {
-        message +=
-            " Tous les anniversaires associés à ce groupe seront également supprimés.";
+        message += " Tous les anniversaires associés à ce groupe seront également supprimés.";
     }
+    
+    confirmMessage.textContent = message;
+    modal.style.display = 'block';
 
-    if (confirm(message)) {
+    document.getElementById('confirmYes').onclick = () => {
         data.groups = data.groups.filter((g) => g.id !== id);
 
         if (hasBirthdays) {
@@ -548,16 +551,123 @@ function deleteGroup(id) {
         renderGroups(document.getElementById("groups-list"));
         renderUpcomingBirthdays(document.getElementById("upcoming-birthdays"));
         updateGroupOptions(document.getElementById("group"));
-        updateTimelineGroupFilter(); // Mettre à jour le filtre de groupe dans la chronologie
-        
+        updateTimelineGroupFilter();
+
         // Mettre à jour la chronologie si l'onglet est actif
         const timelinePane = document.getElementById("timeline");
         if (timelinePane && timelinePane.classList.contains("active")) {
             renderTimelineView(document.querySelector("#month-view-btn").classList.contains("active") ? "month" : "season");
         }
-        
+
+        modal.style.display = 'none';
         showNotification(`Groupe "${group.name}" supprimé.`);
-    }
+    };
+
+    document.getElementById('confirmNo').onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+// Afficher les détails d'un anniversaire
+function showBirthdayDetails(birthdayId) {
+    const birthday = data.birthdays.find(b => b.id === birthdayId);
+    if (!birthday) return;
+
+    const group = data.groups.find(g => g.id === birthday.groupId);
+    const groupName = group ? group.name : "Sans groupe";
+    const birthDate = new Date(birthday.date);
+    const age = new Date().getFullYear() - birthDate.getFullYear();
+
+    const modal = document.getElementById('membersModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+
+    modalTitle.textContent = `Détails de l'anniversaire`;
+    modalContent.innerHTML = `
+        <div class="birthday-details">
+            <h3>${birthday.name}</h3>
+            <p>Date: ${formatDate(birthday.date)}</p>
+            <p>Âge en ${new Date().getFullYear()}: ${age} ans</p>
+            <p>Groupe: ${groupName}</p>
+            <button onclick="showEditModal('${birthdayId}')" class="action-btn">Modifier</button>
+        </div>
+    `;
+
+    modal.style.display = 'block';
+
+    const closeBtn = modal.querySelector('.modal-close');
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    };
+}
+
+// Afficher le modal d'édition
+function showEditModal(birthdayId) {
+    const birthday = data.birthdays.find(b => b.id === birthdayId);
+    if (!birthday) return;
+
+    const modal = document.getElementById('membersModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+
+    modalTitle.textContent = `Modifier l'anniversaire`;
+    modalContent.innerHTML = `
+        <form id="edit-birthday-form">
+            <div class="form-group">
+                <label for="edit-name">Nom:</label>
+                <input type="text" id="edit-name" value="${birthday.name}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-date">Date:</label>
+                <input type="date" id="edit-date" value="${birthday.date}" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-group">Groupe:</label>
+                <select id="edit-group" required>
+                    <option value="">Sélectionnez un groupe</option>
+                    ${data.groups.map(g => `
+                        <option value="${g.id}" ${g.id === birthday.groupId ? 'selected' : ''}>
+                            ${g.name}
+                        </option>
+                    `).join('')}
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn-confirm">Enregistrer</button>
+                <button type="button" class="btn-cancel" onclick="showBirthdayDetails('${birthdayId}')">Annuler</button>
+            </div>
+        </form>
+    `;
+
+    const form = modalContent.querySelector('#edit-birthday-form');
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        const updatedBirthday = {
+            ...birthday,
+            name: document.getElementById('edit-name').value.trim(),
+            date: document.getElementById('edit-date').value,
+            groupId: document.getElementById('edit-group').value
+        };
+
+        // Mettre à jour les données
+        const index = data.birthdays.findIndex(b => b.id === birthdayId);
+        data.birthdays[index] = updatedBirthday;
+        saveData();
+
+        // Mettre à jour l'interface
+        renderUpcomingBirthdays(document.getElementById('upcoming-birthdays'));
+        modal.style.display = 'none';
+        showNotification(`Anniversaire de "${updatedBirthday.name}" modifié avec succès`);
+    };
+
+    modal.style.display = 'block';
 }
 
 // Afficher les membres d'un groupe
@@ -566,18 +676,42 @@ function showGroupMembers(groupId) {
     if (!group) return;
 
     const members = data.birthdays.filter((b) => b.groupId === groupId);
+    const modal = document.getElementById('membersModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
 
-    let message = `Membres du groupe "${group.name}":\n\n`;
+    modalTitle.textContent = `Membres du groupe "${group.name}"`;
 
     if (members.length === 0) {
-        message += "Aucun membre dans ce groupe.";
+        modalContent.innerHTML = '<p class="empty-message">Aucun membre dans ce groupe.</p>';
     } else {
+        let html = '<div class="month-birthday-list">';
         members.forEach((member) => {
-            message += `- ${member.name} (${formatDate(member.date)})\n`;
+            html += `
+                <div class="month-birthday-item">
+                    <span class="name">${member.name}</span>
+                    <span class="date">${formatDate(member.date)}</span>
+                </div>
+            `;
         });
+        html += '</div>';
+        modalContent.innerHTML = html;
     }
 
-    alert(message);
+    modal.style.display = 'block';
+
+    // Fermer le modal
+    const closeBtn = modal.querySelector('.modal-close');
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    // Fermer en cliquant en dehors du modal
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
 }
 
 // Générer un ID unique
@@ -710,11 +844,10 @@ function renderMonthView(container, birthdays) {
         html += `
             <div class="month-card">
                 <h3>${month.name}</h3>
-                ${
-                    monthBirthdays.length > 0
-                        ? '<div class="month-birthday-list">'
-                        : '<p class="empty-message">Aucun anniversaire ce mois-ci</p>'
-                }
+                ${monthBirthdays.length > 0
+                ? '<div class="month-birthday-list">'
+                : '<p class="empty-message">Aucun anniversaire ce mois-ci</p>'
+            }
         `;
 
         if (monthBirthdays.length > 0) {
@@ -815,11 +948,10 @@ function renderSeasonView(container, birthdays) {
         html += `
             <div class="season-section ${season.class}">
                 <h3><span class="season-icon">${season.icon}</span> ${season.name}</h3>
-                ${
-                    seasonBirthdays.length > 0
-                        ? '<div class="season-birthday-list">'
-                        : '<p class="empty-message">Aucun anniversaire cette saison</p>'
-                }
+                ${seasonBirthdays.length > 0
+                ? '<div class="season-birthday-list">'
+                : '<p class="empty-message">Aucun anniversaire cette saison</p>'
+            }
         `;
 
         if (seasonBirthdays.length > 0) {
@@ -973,7 +1105,7 @@ function checkNotifications() {
             );
 
             // Ouvrir l'application au clic sur la notification
-            notif.onclick = function (event) {
+            notif.onclick = function(event) {
                 event.preventDefault();
                 window.focus();
                 const tabButtons = document.querySelectorAll(".tab-btn");
@@ -990,7 +1122,7 @@ function saveData() {
         // Sauvegarder dans le localStorage
         localStorage.setItem("birthdayData", JSON.stringify(data));
         console.log("Données sauvegardées dans le localStorage");
-        
+
         // Sauvegarder dans le fichier JSON en temps réel via le serveur
         fetch('/save-data', {
             method: 'POST',
@@ -999,19 +1131,19 @@ function saveData() {
             },
             body: JSON.stringify(data)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la sauvegarde du fichier JSON');
-            }
-            return response.json();
-        })
-        .then(result => {
-            console.log("Données sauvegardées dans le fichier JSON:", result);
-        })
-        .catch(error => {
-            console.error("Erreur lors de la sauvegarde dans le fichier:", error);
-        });
-        
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la sauvegarde du fichier JSON');
+                }
+                return response.json();
+            })
+            .then(result => {
+                console.log("Données sauvegardées dans le fichier JSON:", result);
+            })
+            .catch(error => {
+                console.error("Erreur lors de la sauvegarde dans le fichier:", error);
+            });
+
         showNotification("Données sauvegardées avec succès");
         return true;
     } catch (error) {
@@ -1058,7 +1190,7 @@ function importData(file) {
     try {
         const reader = new FileReader();
 
-        reader.onload = function (event) {
+        reader.onload = function(event) {
             try {
                 const importedData = JSON.parse(event.target.result);
 
@@ -1094,7 +1226,7 @@ function importData(file) {
             }
         };
 
-        reader.onerror = function () {
+        reader.onerror = function() {
             console.error("Erreur lors de la lecture du fichier");
             showNotification("Erreur lors de la lecture du fichier");
         };
@@ -1104,4 +1236,44 @@ function importData(file) {
         console.error("Erreur lors de l'importation des données:", error);
         showNotification("Erreur lors de l'importation des données");
     }
+}
+
+// Fonction pour afficher un modal de confirmation
+function showConfirmModal(message, onConfirm) {
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <p>${message}</p>
+            <div class="modal-buttons">
+                <button class="modal-confirm">Confirmer</button>
+                <button class="modal-cancel">Annuler</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const closeBtn = modal.querySelector('.modal-close');
+    const confirmBtn = modal.querySelector('.modal-confirm');
+    const cancelBtn = modal.querySelector('.modal-cancel');
+
+    closeBtn.onclick = function() {
+        document.body.removeChild(modal);
+    };
+
+    confirmBtn.onclick = function() {
+        document.body.removeChild(modal);
+        onConfirm();
+    };
+
+    cancelBtn.onclick = function() {
+        document.body.removeChild(modal);
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            document.body.removeChild(modal);
+        }
+    };
 }
