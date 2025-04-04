@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tabButtons,
             tabPanes,
         );
+        window.location.reload();
     });
 
     // Exporter les données
@@ -397,6 +398,7 @@ function addGroup(inputElement, groupsContainer, selectElement) {
     updateGroupOptions(selectElement);
     updateTimelineGroupFilter(); // Mettre à jour aussi le filtre de la chronologie
     showNotification(`Groupe "${name}" créé avec succès.`);
+    window.location.reload();
 }
 
 // Ajouter un anniversaire
@@ -419,7 +421,7 @@ function addBirthday(formElement, birthdaysContainer, tabButtons, tabPanes) {
 
     data.birthdays.push(newBirthday);
     saveData();
-
+window.location.reload();
     formElement.reset();
     // Mettre à jour les différentes vues
     renderUpcomingBirthdays(birthdaysContainer);
@@ -496,6 +498,7 @@ function deleteBirthday(id) {
             modal.style.display = 'none';
         }
     };
+    window.location.reload();
 }
 
 // Modifier un groupe
